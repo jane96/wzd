@@ -1,0 +1,213 @@
+<!-- hbox layout -->
+<style>
+.vbox {
+	height: 100vh;
+}
+
+#rechargeForm {
+	margin-top: 25%;
+}
+.fixed{
+	margin:0 auto;
+	width:500px;
+}
+th, td {
+	text-align: center;
+}
+
+.btn-la {
+	background-color: #586381;
+}
+
+.btn-lb {
+	background-color: #586381;
+}
+.tableinfo{
+	width:800px;
+	margin:0 auto;
+}
+
+</style>
+<div ng-controller="rechargeCtrl">
+<div class="hbox hbox-auto-xs bg-light "
+	ng-init="
+  app.settings.asideFixed = true;
+  app.settings.asideDock = false;
+  app.settings.container = false;
+  app.hideAside = false;
+  app.hideFooter = true;
+  "
+	>
+	<!-- recharge start -->
+	<div class="col  w-lg lt b-r " id="second">
+		<div class="vbox ">
+			<div class="wrapper  bg-dark">
+				<div class="h4 text-center text-white">房卡充值</div>
+			</div>
+			<div class="wrapper b-t m-t-xxs ">
+				<form class="form-horizontal" role="form" id="rechargeForm">
+					<div class="form-group">
+						<label class="col-md-4 control-label ">充值ID:</label>
+						<div class="col-md-8">
+							<input type="text" name="rechargeId" class="form-control"
+								id="inputId" placeholder="请输入充值ID" ng-model="playerId" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword" class="col-md-4 control-label">充值数量:</label>
+						<div class="col-md-8">
+							<input type="text" name="rechargeNumber" class="form-control"
+								id="inputNumber" placeholder="请输入充值数量" ng-model="playerNumber"
+								required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword" class="col-md-4 control-label">备注:</label>
+						<div class="col-md-8">
+							<input type="text" name="rechargeMark" class="form-control"
+								id="inputNumber" placeholder="请输入备注" ng-model="rechargeMark"
+								>
+						</div>
+					</div>
+					<div class="form-group text-center">
+						<div class="btn-group btn-group-lg">
+							<button class="btn btn-dark" id="confirmSubmit" >充值</button>
+							<button class="btn  btn-dark" id="resetBtn" type="reset">重置</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="row-row">
+				<div
+					style="position: relative; width: 100%; height: 90vh; overflow-y: auto">
+					<div id="result"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end recharge-->
+
+	<!-- start rechargeList  -->
+	<div class="col" id="third">
+		<div class="vbox">
+			<div class="wrapper bg-info lt b-b">
+				<div class="h4 text-center">充值记录</div>
+			</div>
+			<div >
+	<div class="fixed ">
+		<table class="table table-responsive">
+			<tr>
+				<td>
+					<div class="search">
+						<div class="input-group">
+							<span class="input-group-addon"><label
+								class="label label-info">查询条件</label></span> <input type="text"
+								class="form-control" placeholder="请输入查询ID" ng-model="searchId"
+								data-container="body" data-trigger="focus" data-toggle="popover"
+								data-placement="top" data-content="输入为空查询全部ID" /> <input
+								type="text" name="reservation" placeholder="请输入查询时间段"
+								id="reservation" class="form-control" data-container="body"
+								data-trigger="focus" data-toggle="popover" data-placement="left"
+								data-content="输入为空查询全部时间段" ng-model="searchDate" /> <span
+								class="input-group-addon"><button
+									class="btn btn-info btnline" ng-click="search()">搜索</button></span>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<hr>
+	<div class="table tableinfo text-center">
+		<table class="table  table-responsive table-bordered  table-hover">
+		 	<thead>
+				<tr>
+					<th class="text-center"><span class="label label-success">序号</span></th>
+					<th class="text-center"><span class="label label-success">玩家Id</span></th>
+					<th class="text-center"><span class="label label-success">数量</span></th>
+					<th class="text-center"><span class="label label-success">时间</span></th>
+					<th class="text-center"><span class="label label-success">备注</span></th>
+					
+				</tr>
+				<tr>
+					<th ng-if="pageCount==0" colspan=5><div
+								class="alert alert-info text-center">提示信息：查询记录为空！</div></th>
+				</tr>
+			</thead>
+			<tbody ng-repeat="sale in sales">
+				<tr>
+					<td class="text-center"><span class="badge  bg-info">{{$index+1}}</span></td>
+					<td class="text-center">{{sale.playerId}}</td>
+					<td class="text-center">{{sale.playerNumber}}</td>
+					<td class="text-center">{{sale.playerRechargeDate}}</td>
+					<td class="text-center">{{sale.playerRemark}}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<ul class="pagination text-center" ng-repeat="page in pages">
+			<li ng-if='$index=$first'><a href="javascript:void()"
+				ng-click="clickPage(-1)">首页</a></li>
+			<li ng-if='$index=$first'><a href="javascript:void()"
+				ng-click="clickPage(-2)"><span
+					class="glyphicon glyphicon-fast-backward"></span></a></li>
+			<li ng-if='$index=$first && curMin > 1  '><a
+				href="javascript:void()">...</a></li>
+			<li><a href="javascript:void()"
+				ng-if="page <= pageCount && page!=pageCur"
+				ng-click="clickPage(page)">{{page}}</a> <a href="javascript:void()"
+				ng-if="page <= pageCount && page==pageCur"
+				style="background-color: #edf1f2; border-color: #dee5e7;"
+				ng-click="clickPage(page)">{{page}}</a></li>
+			<li ng-if='$index=$last && curMax < pageCount && pageCount > count '><a
+				href="javascript:void()">...</a></li>
+			<li ng-if='$index=$last'><a href="javascript:void()"
+				ng-click="clickPage(-3)"><span
+					class="	glyphicon glyphicon-fast-forward"></span></a></li>
+			<li ng-if='$index=$last'><a href="javascript:void()"
+				ng-click="clickPage(-4)">末页</a></li>
+		</ul>
+	</div>
+</div>
+</div>
+</div>
+</div>
+<!-- end rechargeList -->
+
+<!-- Modal） start-->
+<div class="modal fade" id="rechargeConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info ">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">请确认你的充值信息</h4>
+            </div>
+            <div class="modal-body text-center">
+            	<table class="table table-border">
+            		<thead>
+            			<tr>
+            				<th>充值ID</th>
+            				<th>充值数量</th>
+            				<th>备注</th>
+            			</tr>
+            		</thead>
+            		<tbody>
+            			<tr>
+            				<td>{{playerId}}</td>
+            				<td>{{playerNumber}}</td>
+            				<td>{{rechargeMark}}</td>
+            			</tr>
+            		</tbody>
+            	</table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="submit()">提交</button>
+            </div>
+        </div>
+    </div>
+<!-- end  （Modal） -->
+</div>
+
+
+

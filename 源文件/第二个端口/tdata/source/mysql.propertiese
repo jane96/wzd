@@ -1,0 +1,7 @@
+jdbcUrl = jdbc:sqlserver://localhost:1433;databaseName=myoa
+
+driverClass = com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+user = sa
+
+password = Test123@

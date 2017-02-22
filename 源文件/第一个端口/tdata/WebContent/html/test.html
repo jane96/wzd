@@ -1,0 +1,84 @@
+<!-- hbox layout -->
+<style>
+.vbox {
+	height: 94vh;
+}
+
+#proxyForm {
+	margin-top: 25%;
+}
+
+th, td {
+	text-align: center;
+}
+
+.btn-la {
+	background-color: #586381;
+}
+
+.btn-lb {
+	background-color: #586381;
+}
+</style>
+<div class="hbox hbox-auto-xs bg-light "
+	ng-init="
+  app.settings.asideFixed = true;
+  app.settings.asideDock = false;
+  app.settings.container = false;
+  app.hideAside = false;
+  app.hideFooter = true;
+  "
+	ng-controller="proxyCtrl">
+	<!-- column -->
+	<div class="col">
+		<div class="vbox bg-dark">
+			<div class="wrapper ">
+				<div class="h4 text-center text-white">房卡充值</div>
+			</div>
+			<div class="wrapper b-t m-t-xxs ">
+				<form class="form-horizontal" role="form" id="rechargeForm">
+					<div class="form-group">
+						<label class="col-md-4 control-label ">充值ID:</label>
+						<div class="col-md-6">
+							<input type="text" name="rechargeId" class="form-control"
+								id="inputId" placeholder="请输入充值ID" ng-model="playerId" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword" class="col-md-4 control-label">充值数量</label>
+						<div class="col-md-6">
+							<input type="text" name="rechargeNumber" class="form-control"
+								id="inputNumber" placeholder="请输入充值数量" ng-model="playerNumber"
+								required>
+						</div>
+					</div>
+					<div class="form-group text-center">
+						<div class="btn-group btn-group-lg">
+							<button class="btn btn-success" ng-click="submit()">充值</button>
+							<button class="btn  btn-danger" id="resetBtn" type="reset">重置</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="row-row"></div>
+		</div>
+	</div>
+	<!-- /column -->
+
+	<!-- column -->
+	<div class="col  w-lg lt b-r">
+		<div class="vbox">
+			<div class="wrapper bg-info lt b-b">
+				<div class="h4 text-center">充值结果</div>
+			</div>
+			<div class="row-row">
+				<div
+					style="position: relative; width: 100%; height: 90vh; overflow-y: auto">
+					<div id="result"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /column -->
+</div>
+<!-- /hbox layout -->

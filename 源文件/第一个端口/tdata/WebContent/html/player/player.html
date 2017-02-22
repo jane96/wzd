@@ -1,0 +1,96 @@
+<style>
+.fixed {
+	width:500px;
+	top:100px;
+	margin:0 auto;
+	z-index: 102;
+	
+}
+.tableinfo {
+	width:800px;
+	position: relative;
+	margin-top: 80px;
+	z-index: 101;
+	margin:100px auto;
+}
+
+.search {
+	float: left;
+	width: 30%;
+	margin-left: 30%;
+	display: inline;
+}
+
+.input-group-line {
+	width: 87%;
+}
+
+td, th {
+	align: center;
+}
+</style>
+<div ng-controller="playerCtrl">
+	<div class="table">
+		<div class="input-group fixed">
+					<span class="input-group-addon">
+						<label class="label label-info">查询条件</label>
+					</span> 
+					<input type="text" class="form-control" placeholder="请输入查询ID" ng-model="searchId"/> 
+					<input type="text" name="reservation" placeholder="请输入查询微信昵称"
+						id="reservation" class="form-control" ng-model="searchWechat" /> 
+					<span class="input-group-addon">
+						<button class="btn btn-info btnline" ng-click="search()">搜索</button>
+					</span>
+		</div>
+	</div>
+	<hr>
+	<div class="table tableinfo text-center">
+		<table class="table  table-responsive   table-border table-hover">
+			<thead>
+				<tr>
+					<th class="text-center"><span class="label label-success">序号</span></th>
+					<th class="text-center"><span class="label label-success">玩家Id</span></th>
+					<th class="text-center"><span class="label label-success">微信昵称</span></th>
+					<th class="text-center"><span class="label label-success">当前拥有房卡</span></th>
+					<th class="text-center"><span class="label label-success">注册时间</span></th>
+				</tr>
+				<tr>
+					<th ng-if="pageCount==0" colspan=5><div
+							class="alert alert-info text-center">提示信息：查询记录为空！</div></th>
+				</tr>
+			</thead>
+			<tbody ng-repeat="player in players">
+				<tr>
+					<td class="text-center"><span class="badge  bg-info">{{$index+1}}</span></td>
+					<td class="text-center">{{player.pId}}</td>
+					<td class="text-center">{{player.pWechat}}</td>
+					<td class="text-center">{{player.pNumber}}</td>
+					<td class="text-center">{{player.date}}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<ul class="pagination text-center" ng-repeat="page in pages">
+			<li ng-if='$index=$first'><a href="javascript:void()"
+				ng-click="clickPage(-1)">首页</a></li>
+			<li ng-if='$index=$first'><a href="javascript:void()"
+				ng-click="clickPage(-2)"><span
+					class="glyphicon glyphicon-fast-backward"></span></a></li>
+			<li ng-if='$index=$first && curMin > 1  '><a
+				href="javascript:void()">...</a></li>
+			<li><a href="javascript:void()"
+				ng-if="page <= pageCount && page!=pageCur"
+				ng-click="clickPage(page)">{{page}}</a> <a href="javascript:void()"
+				ng-if="page <= pageCount && page==pageCur"
+				style="background-color: #edf1f2; border-color: #dee5e7;"
+				ng-click="clickPage(page)">{{page}}</a></li>
+			<li ng-if='$index=$last && curMax < pageCount && pageCount > count '><a
+				href="javascript:void()">...</a></li>
+			<li ng-if='$index=$last'><a href="javascript:void()"
+				ng-click="clickPage(-3)"><span
+					class="	glyphicon glyphicon-fast-forward"></span></a></li>
+			<li ng-if='$index=$last'><a href="javascript:void()"
+				ng-click="clickPage(-4)">末页</a></li>
+		</ul>
+	</div>
+</div>

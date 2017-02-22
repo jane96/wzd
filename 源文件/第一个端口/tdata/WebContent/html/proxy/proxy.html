@@ -1,0 +1,329 @@
+<!-- hbox layout -->
+<style>
+.vbox {
+	height: 100vh;
+}
+
+.proxyBtn {
+	margin-top: 10%;
+	width:250px;
+	margin:0 auto;
+}
+
+th, td {
+	text-align: center;
+}
+
+.btn-la {
+	background-color: #586381;
+}
+
+.btn-lb {
+	background-color: #586381;
+}
+.w-mlg{
+	width:40%;	
+	height:100%;
+	background:#f3f5f6;
+}
+.proxyTable,.proxyList{
+	width:95%;
+	margin:0 auto;
+	margin-top:30px;
+}
+.pageClass,.pageClass2{
+	text-align:center;
+	
+}
+.pageClass ul li a{
+	color: #3a3f51;
+}
+ .wordBreak{
+	word-wrap:break-word; 
+	word-break:break-all; 
+}
+.proxyList{
+	 
+	width:95%;
+	margin:0 auto;
+	margin-top:18px;
+	background:#fff;
+	overflow-y:scroll;
+	
+}
+.fixed{
+	width:600px;
+	margin:0 auto;
+	margin-top:10px;
+}
+</style>
+<div class="hbox hbox-auto-xs bg-light "
+	ng-init="
+  app.settings.asideFixed = true;
+  app.settings.asideDock = false;
+  app.settings.container = false;
+  app.hideAside = false;
+  app.hideFooter = true;
+  "ng-controller="proxyCtrl">
+
+	<!-- proxy start -->
+	<div class="col w-mlg">
+	<!-- modal start-->
+	<div class="modal fade" id="myModal3"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-dark">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">修改账号信息</h4>
+			</div>
+			<div class="modal-body">
+				<div class="input-group">
+					<form class="form-horizontal" role="form" id="modalForm3">
+						<div class="form-group text-inline">
+							<label class="col-md-4 control-label ">微信:</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control col-md-12"
+									placeholder="请输入新微信号" name="proxyWechat" ng-model="proxyWechat"
+								 required>
+							</div>
+						</div>
+						<div class="form-group text-inline">
+							<label class="col-md-4 control-label ">手机:</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control col-md-12"
+									placeholder="请输入新手机号" ng-model="proxyPhone"
+									name="proxyPhone" required>
+							</div>
+						</div>
+						<div class="form-group text-inline">
+							<label class="col-md-4 control-label ">密码:</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control col-md-12"
+									placeholder="请输入新的密码" ng-model="proxyPassword"
+									name="proxyPassword" required>
+							</div>
+						</div>
+						<button type="button" class="btn btn-dark pull-right" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-dark pull-right" data-dismiss="modal" ng-click="modalSubmit()">提交</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--end modal -->
+		<div class="vbox">
+			<div class="wrapper bg-dark">
+				<div class="h4 text-center text-white">点击生成代理账号</div>
+			</div>
+			<div class="wrapper b-t m-t-xxs ">
+				<button class="proxyBtn btn btn-block btn-dark"
+					ng-click="createProxy()">生成代理账号</button>
+			</div>
+			<div class="row-row"ng-if="pageCount != 0">
+				<table class="table table-bordered table-responsive bg-white proxyTable ">
+					<thead>
+						<tr>
+							<th >序号</th>
+							<th >账号</th>
+							<th >ID</th>
+							<th >密码</th>
+							<th >修改</th>
+						</tr>	
+					</thead>
+					<tbody ng-repeat="proxy in proxys" >
+						<tr>
+							<td>{{$index + 1}}</td>
+							<td >{{proxy.user.name}}</td>
+							<td>{{proxy.user.loginId}}</td>
+							<td class="wordBreak">{{proxy.user.password}}</td>
+							<td>
+								<button class="btn btn-dark" data-toggle="modal" ng-click="changeInfo(proxy.id,proxy.user.password,proxy.proxyPhone,proxy.proxyWeChat)" data-target="#myModal3">修改</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="pageClass">
+					<ul class="pagination text-center" ng-repeat="page in pages">
+						<li ng-if='$index=$first'><a href="javascript:void()"
+							ng-click="clickPage(-1)">首页</a></li>
+						<li ng-if='$index=$first'><a href="javascript:void()"
+							ng-click="clickPage(-2)"><span
+								class="glyphicon glyphicon-fast-backward"></span></a></li>
+						<li ng-if='$index=$first && curMin > 1  '><a
+							href="javascript:void()">...</a></li>
+						<li><a href="javascript:void()"
+							ng-if="page <= pageCount && page!=pageCur"
+							ng-click="clickPage(page)">{{page}}</a> <a
+							href="javascript:void()"
+							ng-if="page <= pageCount && page==pageCur"
+							style="background-color: #edf1f2; border-color: #dee5e7;"
+							ng-click="clickPage(page)">{{page}}</a></li>
+						<li
+							ng-if='$index=$last && curMax < pageCount && pageCount > count '><a
+							href="javascript:void()">...</a></li>
+						<li ng-if='$index=$last'><a href="javascript:void()"
+							ng-click="clickPage(-3)"><span
+								class="	glyphicon glyphicon-fast-forward"></span></a></li>
+						<li ng-if='$index=$last'><a href="javascript:void()"
+							ng-click="clickPage(-4)">末页</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="noData" ng-if="pageCount==0">
+				<div class="alert alert-info text-center">提示信息:无生成的代理账号</div>
+			</div>
+		</div>
+	</div>
+	
+
+	<!-- proxyList start -->
+	<div class="col" ng-controller="proxyListCtrl">
+		<div class="vbox">
+			<div class="wrapper bg-info lt b-b">
+				<div class="h4 text-center">账号查看</div>
+			</div>
+			<div  id="table">
+				<div class="input-group fixed">
+					<span class="input-group-addon">
+						<label class="label label-info">查询条件</label>
+					</span> 
+					<input type="text" class="form-control" placeholder="请输入查询ID" ng-model="searchId"/> 
+					<input type="text" name="reservation" placeholder="请输入查询手机号"
+						id="reservation" class="form-control" ng-model="searchPhone" /> 
+					<span class="input-group-addon">
+						<button class="btn btn-info btnline" ng-click="search()">搜索</button>
+					</span>
+				</div>
+				<table ng-if="pageCount !=0 " class="table table-striped table-bordered proxyList">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>账号</th>
+							<th>ID</th>
+							<th>手机</th>
+							<th>微信</th>
+							<th>生成时间</th>
+							<th>累计购买</th>
+							<th>当前拥有</th>
+							<th>充值</th>
+						</tr>
+					</thead>
+					<tbody ng-repeat="proxy in proxyList">
+						<tr>
+							<td>{{$index + 1}}</td>
+							<td class="wordBreak">{{proxy.user.name}}</td>
+							<td>{{proxy.user.loginId}}</td>
+							<td class="wordBreak">{{proxy.proxyPhone}}</td>
+							<td class="wordBreak">{{proxy.proxyWeChat}}</td>
+							<td>{{proxy.date}}</td>
+							<td>{{proxy.user.recordNumber}}</td>
+							<td>{{proxy.user.currentNumber}}</td>
+							<td>
+								<button class="btn btn-info" ng-click="modalClick2(proxy.id,proxy.user.loginId)" data-toggle="modal" data-target="#myModal4">
+									<span class="glyphicon glyphicon-pencil"></span>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+					<div class="pageClass2">
+					<ul class="pagination text-center" ng-repeat="page in pages">
+						<li ng-if='$index=$first'><a href="javascript:void()"
+							ng-click="clickPage(-1)">首页</a></li>
+						<li ng-if='$index=$first'><a href="javascript:void()"
+							ng-click="clickPage(-2)"><span
+								class="glyphicon glyphicon-fast-backward"></span></a></li>
+						<li ng-if='$index=$first && curMin > 1  '><a
+							href="javascript:void()">...</a></li>
+						<li><a href="javascript:void()"
+							ng-if="page <= pageCount && page!=pageCur"
+							ng-click="clickPage(page)">{{page}}</a> <a
+							href="javascript:void()"
+							ng-if="page <= pageCount && page==pageCur"
+							style="background-color: #edf1f2; border-color: #dee5e7;"
+							ng-click="clickPage(page)">{{page}}</a></li>
+						<li
+							ng-if='$index=$last && curMax < pageCount && pageCount > count '><a
+							href="javascript:void()">...</a></li>
+						<li ng-if='$index=$last'><a href="javascript:void()"
+							ng-click="clickPage(-3)"><span
+								class="	glyphicon glyphicon-fast-forward"></span></a></li>
+						<li ng-if='$index=$last'><a href="javascript:void()"
+							ng-click="clickPage(-4)">末页</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- modal -->
+	<div class="modal fade" id="myModal4" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header  bg-info">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">代理商充值</h4>
+			</div>
+			<div class="modal-body">
+				<div class="input-group">
+					<form class="form-horizontal" role="form" id="modalForm4">
+						<div class="form-group text-inline">
+							<label class="col-md-4 control-label ">账号:</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control col-md-12" ng-model="proxyUser" readonly/>
+							</div>
+						</div>
+						<div class="form-group text-inline">
+							<label class="col-md-4 control-label ">充值数量:</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control col-md-12" placeholder="请输入充值数量" ng-model="proxyNumber"
+									name="proxyNumber" required/>
+							</div>
+						</div>
+						<button type="button" class="btn btn-info pull-right" data-dismiss="modal">关闭</button>
+						<button type="submit" class="btn btn-info pull-right" data-dismiss="modal" ng-click="modalSubmit3()">提交</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+</div>
+<!-- modal start-->
+<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">充值信息确认？</h4>
+            </div>
+            <div class="modal-body">
+            	<table class="table table-border">
+            		<thead>
+            			<th>充值ID</th>
+            			<th>充值数量</th>
+            		</thead>
+            		<tbody>
+            			<tr>
+            				<td>{{proxyUser}}</td>
+            				<td>{{proxyNumber}}</td>
+            			</tr>
+            		</tbody>
+            	</table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="submitRecharge()">充值</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal -->
+	<div class="noData" ng-if="pageCount==0">
+		<div class="alert alert-info text-center">提示信息:查询的代理账号不存在！</div>
+	</div>
+</div>
+</div>
+<!-- end proxyList -->
+</div>

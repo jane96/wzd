@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<ehcache updateCheck="false" name="hibernateCache">
+
+	<diskStore path="java.io.tmpdir/tdata/ehcache/hibernate" />
+
+	<!-- DefaultCache setting. -->
+	<defaultCache maxEntriesLocalHeap="500" eternal="false"
+		timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="true"
+		maxEntriesLocalDisk="100000" />
+
+	<cache name="com.web.entity.User" maxEntriesLocalHeap="200"
+		eternal="false" overflowToDisk="true" maxEntriesLocalDisk="100000" />
+	<cache name="com.web.entity.Player" maxEntriesLocalHeap="200"
+		eternal="false" overflowToDisk="true" maxEntriesLocalDisk="100000" />
+	<cache name="com.web.entity.SaleRecord" maxEntriesLocalHeap="200"
+		eternal="false" overflowToDisk="true" maxEntriesLocalDisk="100000" />
+
+
+</ehcache>

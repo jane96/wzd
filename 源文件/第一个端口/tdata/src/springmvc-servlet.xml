@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 引入约束 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		">
+	<!-- 加载配置属性文件 -->
+	<context:property-placeholder location="classpath:/config.propertiese" />
+	<!-- 访问静态页面的配置 -->
+
+	<mvc:resources mapping="/html/**" location="/html/"
+		cache-period="31556926" />
+	<mvc:resources mapping="/readme.html" location="/"
+		cache-period="31556926" />
+	<mvc:resources mapping="/assets/**" location="/assets/"
+		cache-period="31556926" />
+	<!-- 自动扫描且只扫描@Controller -->
+	<context:component-scan base-package="com.web.*"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	<!-- 支持Shiro对Controller的方法级AOP安全控制 begin -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.apache.shiro.authz.UnauthorizedException">error/403</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- Shiro end -->
+	<!-- 默认的注解映射的支持，org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -->
+	<mvc:annotation-driven
+		content-negotiation-manager="contentNegotiationManager">
+		<mvc:message-converters register-defaults="true">
+			<!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg value="UTF-8" />
+			</bean>
+			<!-- 将Jackson2HttpMessageConverter的默认格式化输出为true -->
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="prettyPrint" value="true" />
+				<property name="objectMapper">
+					<bean class="com.web.mapper.JsonMapper"></bean>
+				</property>
+			</bean>
+
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- REST中根据URL后缀自动判定Content-Type及相应的View -->
+	<bean id="contentNegotiationManager"
+		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="mediaTypes">
+			<map>
+				<entry key="xml" value="application/xml" />
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="favorPathExtension" value="true" />
+	</bean>
+	<!-- 前缀+ viewName +后缀 -->
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+
+		<!-- webroot到某一指定的文件夹的路径 -->
+
+		<property name="prefix" value="${web.view.prefix}"></property>
+
+		<!-- 视图名称的后缀 -->
+
+		<property name="suffix" value="${web.view.suffix}"></property>
+
+
+	</bean>
+	<!-- 上传文件拦截，设置最大上传文件大小 10M=10*1024*1024(B)=10485760 bytes -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="${web.maxUploadSize}" />
+	</bean>
+
+
+</beans> 

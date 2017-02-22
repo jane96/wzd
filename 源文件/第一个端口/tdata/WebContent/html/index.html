@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html data-ng-app="app">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache">  
+<meta name="description" content="Angularjs, Html5, Music, Landing, 4 in 1 ui kits package" />
+<meta name="keywords" content="AngularJS, angular, bootstrap, admin, dashboard, panel, app, charts, components,flat, responsive, layout, kit, ui, route, web, app, widgets" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet"
+	href="/tdata/assets/js/plugins/bootstrap/dist/css/bootstrap.min.css"
+	type="text/css" />
+<link rel="stylesheet"
+	href="/tdata/assets/js/plugins/font-awesome/css/font-awesome.min.css"
+	type="text/css" />
+<link rel="stylesheet" href="/tdata/assets/css/app.css" type="text/css" />
+<link rel="stylesheet" href="/tdata/assets/css/font.css" />
+<link rel="stylesheet" href="/tdata/assets/css/animate.min.css" />
+<link rel="stylesheet" href="/tdata/assets/css/angular-aside.css" />
+<link rel="stylesheet"
+	href="/tdata/assets/js/plugins/validatorForm/dist/css/bootstrapValidator.min.css" />
+<link rel="styleshet"
+	href="/tdata/assets/js/plugins/izModal/css/iziModal.min.css" />
+<link rel="stylesheet" href="/tdata/assets/js/plugins/AngularJS-Toaster/toaster.css"/>
+<!--[if lte IE 9]>
+    <script src="/tdata/assets/js/plugins/ie8plus/respond.min.js"></script>
+    <script src="/tdata/assets/js/plugins/ie8plus/html5shiv.min.js"></script>
+    <script src="/tdata/assets/js/plugins/ie8plus/es5-shim.min.js"></script>
+  <![endif]-->
+<title>首页</title>
+
+</head>
+<body ng-controller="AppCtrl" >
+	<div class="app" id="app"
+		ng-class="{'app-header-fixed':app.settings.headerFixed, 'app-aside-fixed':app.settings.asideFixed,'app-aside-chat':app.settings.chat,
+   'app-aside-folded':app.settings.asideFolded, 'app-aside-dock':app.settings.asideDock, 'container':app.settings.container}"
+		ui-view></div>
+
+	<!-- jQuery -->
+	<script src="/tdata/assets/js/plugins/izModal/js/jquery-2.1.1.min.js"></script>
+	<!-- Angular -->
+	<script src="/tdata/assets/js/plugins/angular.js"></script>
+	<script src="/tdata/assets/js/plugins/angular-ui-router.min.js"></script>
+	<script src="/tdata/assets/js/plugins/angular-animate/angular-animate.min.js"></script>
+	<script src="/tdata/assets/js/plugins/angular-aside.min.js"></script>
+	<!-- bootstrap -->
+	<script src="/tdata/assets/js/plugins/bootstrap/dist/js/bootstrap.js"></script>
+	<!-- lazyload -->
+	<script src="/tdata/assets/js/plugins/oclazyload/dist/ocLazyLoad.js"></script>
+	<!-- formValidate -->
+	<script
+	src="/tdata/assets/js/plugins/validatorForm/dist/js/bootstrapValidator.min.js"></script>
+	<!-- moment -->
+	<script src="/tdata/assets/js/plugins/datepicker/moment.min.js"></script>
+	<!-- App -->
+	<script src="/tdata/assets/js/controllers/app.js"></script>
+	<script src="/tdata/assets/js/config.js"></script>
+	<script src="/tdata/assets/js/lazyload.js"></script>
+	<script src="/tdata/assets/js/router.js"></script>
+	<script src="/tdata/assets/js/main.js"></script>
+	<!-- Directive -->
+	<script src="/tdata/assets/js/directive/ui-toggleclass.js"></script>
+	<script src="/tdata/assets/js/directive/ui-scroll.js"></script>
+	<script src="/tdata/assets/js/controllers/modalCtrl.js"></script>
+	<!-- toaster -->
+	<script src="/tdata/assets/js/plugins/AngularJS-Toaster/toaster.js"></script>
+
+
+</body>
+</html>

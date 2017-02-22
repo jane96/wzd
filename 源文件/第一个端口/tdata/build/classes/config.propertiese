@@ -1,0 +1,8 @@
+web.view.prefix = /
+web.view.suffix = 
+web.maxUploadSize = 104857600
+ehcache.configFile=ehcache-local.xml
+hibernate.ehcache.configFile=ehcache-hibernate-local.xml
+hibernate.show_sql=true
+hibernate.hbm2ddl.auto=update
+hibernate.search.default.indexBase=indexes

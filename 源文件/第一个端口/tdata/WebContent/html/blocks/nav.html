@@ -1,0 +1,29 @@
+<!-- list -->
+<ul class="nav">
+	<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+		<span translate="aside.nav.HEADER">导航</span>
+	</li>
+	<!-- 判断是否有角色权限，才显示该导航 -->
+	<li ui-sref-active="active">
+		<a ui-sref="app.recharge"> 
+			<i class="glyphicon glyphicon-calendar icon text-info-dker"></i> 
+			<span class="font-bold" translate="aside.nav.CALENDAR">房卡充值</span>
+		</a>
+	</li>
+
+	<li ui-sref-active="active" ng-if="userRole=='admin' || userRole=='system'">
+		<a ui-sref="app.player"> 
+			<i class="glyphicon glyphicon-calendar icon text-info-dker"></i>
+			<span class="font-bold" translate="aside.nav.player">玩家搜索</span>
+		</a>
+	</li>
+	<!-- 判断是否有角色权限，才显示该导航 -->
+	<li ui-sref-active="active" ng-if="userRole=='admin' || userRole=='system'">
+		<a ui-sref="app.proxy"> 
+			<i class="glyphicon glyphicon-calendar icon text-info-dker"></i> 
+			<span class="font-bold" translate="aside.nav.proxy">代理账号</span>
+		</a>
+	</li>
+
+</ul>
+<!-- / list -->
